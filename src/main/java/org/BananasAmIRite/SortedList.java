@@ -12,6 +12,7 @@ public class SortedList<T extends Comparable<T>> extends ArrayList<T> {
         // testing sorting :D
         for (int i = 0; i < 100000; i++) {
             e.clear();
+            e.setAutoSort(true);
             for (int j = 0; j < 100; j++) {
                 e.add(Math.random());
             }
@@ -27,8 +28,27 @@ public class SortedList<T extends Comparable<T>> extends ArrayList<T> {
                     break;
                 }
             }
+
+            e.clear();
+            e.setAutoSort(false);
+            for (int j = 0; j < 100; j++) {
+                e.add(Math.random());
+            }
+            e.sortAll();
+
+            for (int j = 0; j < e.size(); j++) { // I know, right! bad code!!!
+                Double before = j-1 >= 0 ? e.get(j-1) : null;
+                Double current = e.get(j);
+                Double later = j+1 < e.size() ? e.get(j+1): null;
+                if ((before == null && current >= later) ||
+                        (later == null && current <= before) ||
+                        (later != null && before != null && (current >= later || current <= before))) {
+                    System.out.println("there was a problem with this set: " + e);
+                    break;
+                }
+            }
+
         }
-        System.out.println(e);
     }
 
     public SortedList() {
